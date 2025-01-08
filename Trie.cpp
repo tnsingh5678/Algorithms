@@ -3,10 +3,10 @@ using namespace std;
 class TrieNode{
     public:
     unordered_map<char,TrieNode*> children;
-    bool isEndOfWord;
+    int isEndOfWord;
 
     TrieNode(){
-        isEndOfWord = false;
+        isEndOfWord = 0;
     }
 
 };
@@ -27,10 +27,10 @@ class Trie{
             }
             node = node->children[ch];
         }
-        node->isEndOfWord = true;
+        node->isEndOfWord++;
     }
 
-    bool search(const string& word){
+    int search(const string& word){
         TrieNode* node = root;
         for(auto ch : word){
             if(node->children.find(ch)==node->children.end()){
