@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int findCount(string& s,int pos,int sum,int tight,vector<vector<vector<int>>>& dp,int& n){
+    if(pos == n) return sum == 0;
+    if(sum < 0) return 0;
+    if(dp[pos][sum][tight] != -1) return dp[pos][sum][tight];
+    int ans = 0;
+    int limit = tight ? (s[pos] - '0') : 9;
+    for(int i=0;i<=limit;i++){
+        ans += findCount(s , pos + 1 , sum - i , tight && (i == limit) , dp , n);
+    }
+    return dp[pos][sum][tight] = ans;
+}
+
+
+int main() {
+    int t;
+    cin >> t;
+    while(t--){
+	int x , y , num;
+	cin >> x >> y >> num;
+	
+	string s = to_string(x),t = to_string(y - 1);
+	int n = s.size() , m = t.size();
+	vector<vector<vector<int>>> dp1(n , vector<vector<int>>(num+1,vector<int>(2,-1)));
+	vector<vector<vector<int>>> dp2(m , vector<vector<int>>(num+1,vector<int>(2,-1)));
+	int ans = findCount(s , 0 , num , 1 , dp1 , n) - findCount(t , 0 , num , 1 , dp2 , m);
+	cout << ans << endl;
+    }
+	
+
+}
